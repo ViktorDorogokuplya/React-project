@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
  
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-let renderEntireTree = () => {
+// let renderEntireTree = () => {
 root.render(
   <Provider store={store}>
     <React.StrictMode>
@@ -22,13 +22,13 @@ root.render(
     </React.StrictMode>
   </Provider>
 );
-}
+// }
 
-renderEntireTree();
+// renderEntireTree();
 
-store.subscribe( () => {
-  renderEntireTree();
-})
+// store.subscribe( () => {
+//   renderEntireTree();
+// })
 
 // renderEntireTree(store.getState());
 
