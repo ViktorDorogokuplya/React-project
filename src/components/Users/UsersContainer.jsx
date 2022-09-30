@@ -1,26 +1,28 @@
 import React from "react";
-import * as axios from "axios";
 import { connect } from "react-redux";
 import { follow, setUsers, unfollow, setCurrentPage, setTotalUsersCount, togleIsFetching } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/praloader/Preloader";
+import { getUsers } from "../../api/api";
 
 
 class UsersContainer extends React.Component {
 
     componentDidMount() {
         this.props.togleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {  
-            this.props.togleIsFetching(false);       
-        this.props.setUsers(response.data.items);
-        this.props.setTotalUsersCount(response.data.totalCount);
+        
+        getUsers(this.props.currentPage, this.props.pageSize).then(data => {  
+        this.props.togleIsFetching(false);       
+        this.props.setUsers(data.items);
+        this.props.setTotalUsersCount(data.totalCount);
         });
     }
 
     onPageChanged = (pageNumber) => {
         this.props.togleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`).then(response => {     
+
+        getUsers(pageNumber, this.props.pageSize).then(response => {     
         this.props.togleIsFetching(false);
         this.props.setUsers(response.data.items);
         });
@@ -46,34 +48,6 @@ let mapStateToProps = (state) => {
         isFetching: state.usersPage.isFetching,
     }
 }
-
-// let mapDispatchToProps = (dispatch) => {
-//     return {
-//         follow: (userId) => {
-//             dispatch(followAC(userId));
-//         },
-//         unfollow: (userId) => {
-//             dispatch(unfollowAC(userId));
-//         },
-//         setUsers: (users) => {
-//             dispatch(setUserAC(users));
-//         },
-//         setCurrentPage: (pageNumber) => {
-//             dispatch(setCurrentPageAC(pageNumber));
-//         },
-//         setTotalUsersCount: (totalCount) => {
-//             dispatch(setTotalUsersCountAC(totalCount));
-//         },
-//         togleIsFetching: (isFetching) => {
-//             dispatch(setIsFetchingAC(isFetching));
-//         }
-//     }
-//  }
-
-
-
- 
-
 
 export default connect(mapStateToProps, {follow,
     unfollow,

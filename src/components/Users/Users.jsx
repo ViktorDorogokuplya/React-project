@@ -2,10 +2,13 @@ import React from "react";
 import style from "./Users.module.css";
 import userPhoto from '../../assets/images/user.png';
 import {NavLink} from 'react-router-dom';
+import * as axios from "axios";
 
 
 
 const Users = (props) => {
+    
+    
 
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
@@ -31,14 +34,40 @@ const Users = (props) => {
             </div>
             <div>
                 {user.followed 
-                ? <button onClick={() => {props.follow(user.id)}}>Unofllow</button> 
-                : <button onClick={() => {props.unfollow(user.id)}}>Follow</button>}
+                ? <button onClick={() => {
+
+                    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {withCredentials: true, headers: {
+                        "API-KEY": "9b6262c3-bc36-4f87-bbda-187c4fca2fdc"
+                    }})
+                    .then(response =>{  
+                        if(response.data.resultCode === 0) {
+                            props.unfollow(user.id);
+
+                        }
+                    });
+                    
+                }}>Unofllow</button> 
+                    
+                : <button onClick={() => {
+                    
+                    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {withCredentials: true, headers: {
+                        "API-KEY": "9b6262c3-bc36-4f87-bbda-187c4fca2fdc"
+                    }})
+                    .then(response =>{  
+                        if(response.data.resultCode === 0) {
+                            props.follow(user.id);
+                        
+                        }
+                    });
+                    
+                    }}>Follow</button>}
             </div>
         </span>
         <span>
             <span>
                 <div>{user.name}</div>
                 <div>{user.status}</div>
+                <div>{user.id}</div>
             </span>
             <span>
                 <div>{"user.location.country"}</div>
