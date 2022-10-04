@@ -2,7 +2,7 @@ import React from "react";
 import style from "./Users.module.css";
 import userPhoto from '../../assets/images/user.png';
 import {NavLink} from 'react-router-dom';
-import {usersAPI} from "../../api/api"
+// import {usersAPI} from "../../api/api"
 
 
 const Users = (props) => {
@@ -33,27 +33,29 @@ const Users = (props) => {
             <div>
                 {user.followed 
                 ? <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                    props.togleFollowingInProgress(true, user.id)
+                    // props.togleFollowingInProgress(true, user.id)
+                    props.follow(user.id);
                     
-                    usersAPI.userFollow(user.id).then(data => {  
-                        if(data.resultCode === 0) {
-                            props.unfollow(user.id);
-                        }
-                        props.togleFollowingInProgress(false, user.id)
-                    });
+                    // usersAPI.userFollow(user.id).then(data => {  
+                    //     if(data.resultCode === 0) {
+                    //         props.unfollow(user.id);
+                    //     }
+                    //     props.togleFollowingInProgress(false, user.id)
+                    // });
                     
                 }}>Unofllow</button> 
                     
                 : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                    props.togleFollowingInProgress(true, user.id)
+                    // props.togleFollowingInProgress(true, user.id)
                     
-                    usersAPI.userUnFollow(user.id).then(data => {  
-                        if(data.resultCode === 0) {
-                            props.follow(user.id);
-                        }
-                        props.togleFollowingInProgress(false, user.id)
-                    });
-                    
+                    // usersAPI.userUnFollow(user.id).then(data => {  
+                    //     if(data.resultCode === 0) {
+                    //         props.follow(user.id);
+                    //     }
+                    //     props.togleFollowingInProgress(false, user.id)
+                    // });
+                    props.unfollow(user.id);
+
                     }}>Follow</button>}
             </div>
         </span>
