@@ -2,8 +2,7 @@ import React from "react";
 import style from "./Users.module.css";
 import userPhoto from '../../assets/images/user.png';
 import {NavLink} from 'react-router-dom';
-import * as axios from "axios";
-
+import {usersAPI} from "../../api/api"
 
 
 const Users = (props) => {
@@ -35,11 +34,9 @@ const Users = (props) => {
                 {user.followed 
                 ? <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
                     props.togleFollowingInProgress(true, user.id)
-                    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {withCredentials: true, headers: {
-                        "API-KEY": "9b6262c3-bc36-4f87-bbda-187c4fca2fdc"
-                    }})
-                    .then(response =>{  
-                        if(response.data.resultCode === 0) {
+                    
+                    usersAPI.userFollow(user.id).then(data => {  
+                        if(data.resultCode === 0) {
                             props.unfollow(user.id);
                         }
                         props.togleFollowingInProgress(false, user.id)
@@ -49,11 +46,9 @@ const Users = (props) => {
                     
                 : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
                     props.togleFollowingInProgress(true, user.id)
-                    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {withCredentials: true, headers: {
-                        "API-KEY": "9b6262c3-bc36-4f87-bbda-187c4fca2fdc"
-                    }})
-                    .then(response =>{  
-                        if(response.data.resultCode === 0) {
+                    
+                    usersAPI.userUnFollow(user.id).then(data => {  
+                        if(data.resultCode === 0) {
                             props.follow(user.id);
                         }
                         props.togleFollowingInProgress(false, user.id)

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { follow, setUsers, unfollow, setCurrentPage, setTotalUsersCount, togleIsFetching, togleFollowingInProgress } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/praloader/Preloader";
-import { getUsers } from "../../api/api";
+import { usersAPI } from "../../api/api";
 
 
 class UsersContainer extends React.Component {
@@ -11,7 +11,7 @@ class UsersContainer extends React.Component {
     componentDidMount() {
         this.props.togleIsFetching(true);
         
-        getUsers(this.props.currentPage, this.props.pageSize).then(data => {  
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {  
         this.props.togleIsFetching(false);       
         this.props.setUsers(data.items);
         this.props.setTotalUsersCount(data.totalCount);
@@ -22,7 +22,7 @@ class UsersContainer extends React.Component {
         this.props.togleIsFetching(true);
         this.props.setCurrentPage(pageNumber);
 
-        getUsers(pageNumber, this.props.pageSize).then(response => {     
+        usersAPI.getUsers(pageNumber, this.props.pageSize).then(response => {     
         this.props.togleIsFetching(false);
         this.props.setUsers(response.data.items);
         });
