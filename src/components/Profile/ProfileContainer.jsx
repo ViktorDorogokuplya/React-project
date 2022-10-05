@@ -3,6 +3,7 @@ import Profile from "./Profile";
 import { connect } from "react-redux";
 import { getUserProfile } from "../../redux/profile-reducer";
 import {useParams} from 'react-router-dom';
+import {Navigate} from "react-router-dom";
 // import {usersAPI} from "../../api/api"
 
 
@@ -25,6 +26,8 @@ class ProfileContainer extends React.Component {
 }
 
     render() {
+
+        if (this.props.isAuth) return <Navigate to={'/login'} />;
       
         return (
             <div>
