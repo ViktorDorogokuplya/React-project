@@ -21,10 +21,22 @@ export const usersAPI = {
     userUnFollow (userId) {
         return instance.post(`follow/${userId}`, {}).then(responce => responce.data)
     },
+}
 
+export const profileAPI = {
     getProfile (userId) {
         return instance.get(`profile/` + userId).then(responce => responce.data)
-    }
+    },
+
+    getStatus(userId) {
+        return instance.get(`profile/status/` + userId).then(responce => responce.data)
+    },
+  
+    updateStatus(status) {
+        return (
+            instance.put(`profile/status`, { status }).then(response => (response.data))
+        )
+    },
 }
 
 export const authAPI = {

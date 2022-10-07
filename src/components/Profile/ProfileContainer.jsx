@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getUserProfile } from "../../redux/profile-reducer";
+import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile-reducer";
 import {useParams} from 'react-router-dom';
 import {Navigate} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect"
@@ -18,10 +18,12 @@ class ProfileContainer extends React.Component {
         let userId = this.props.param.userId;
 
         if(!userId) {
-            userId = 26022;
+            userId = 26086;
         }
 
-        this.props.getUserProfile(userId)
+        this.props.getUserProfile(userId);
+        this.props.getUserStatus(userId);
+
 
         // usersAPI.getProfile(userId).then(data => {   
         // this.props.setUserProfile(data)});
@@ -33,7 +35,7 @@ class ProfileContainer extends React.Component {
       
         return (
             <div>
-                <Profile {...this.props} profile={this.props.profile} />
+                <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateUserStatus}/>
              </div>
         )
     }
@@ -41,6 +43,7 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
+    status: state.profilePage.status
     
 });
 function TakeParams(props){
@@ -48,6 +51,6 @@ function TakeParams(props){
 }
 
 
-export default compose(connect(mapStateToProps, {getUserProfile}), withAuthRedirect)(TakeParams);
+export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}), withAuthRedirect)(TakeParams);
 
 // connect(mapStateToProps, {getUserProfile})(TakeParams);
