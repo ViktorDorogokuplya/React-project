@@ -4,7 +4,8 @@ import {Field, reduxForm } from 'redux-form';
 import { required } from "../../utils/validators/validators";
 import {Input} from "../FormsControls/FormsControls";
 import { login } from "../../redux/auth-reducer";
-import { NavLink } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import style from "../FormsControls/FormsControls.module.css"
 
 
 const LoginForm = (props) => {
@@ -14,11 +15,12 @@ const LoginForm = (props) => {
                     <Field name="email" placeholder={"email"} component={Input} validate={[required]}/>
                 </div>
                 <div>
-                <Field name="password" placeholder={"password"} component={Input}validate={[required]} type={"password"}/>
+                <Field name="password" placeholder={"password"} component={Input} validate={[required]} type={"password"}/>
                 </div>
                 <div>
                     <Field name="rememberMe" type={"checkbox"} component={Input}/> remember me
                 </div>
+                {props.error && <div className={style.formSummaryError}>{props.error}</div>}
                 <div>
                     <button>Login</button>
                 </div>
@@ -34,7 +36,7 @@ const LoginPage = (props) => {
     }
 
     if (props.isAuth) {
-        return <NavLink to={'./../profile/'}></NavLink>
+        return <Navigate to={'/profile/'}></Navigate>
     }
 
     return <div>

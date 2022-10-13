@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile-reducer";
 import {useParams} from 'react-router-dom';
-import {Navigate} from "react-router-dom";
+// import {Navigate} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect"
 // import {usersAPI} from "../../api/api"
 
@@ -18,7 +18,7 @@ class ProfileContainer extends React.Component {
         let userId = this.props.param.userId;
 
         if(!userId) {
-            userId = 26086;
+            userId = this.props.authorizedUserId;
         }
 
         this.props.getUserProfile(userId);
@@ -31,7 +31,7 @@ class ProfileContainer extends React.Component {
 
     render() {
 
-        if (!this.props.isAuth) return <Navigate to={'/login'} />;
+        // if (!this.props.isAuth) return <Navigate to={'/login'} />;
       
         return (
             <div>
@@ -43,7 +43,9 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    authorizedUserId: state.auth.userId,
+    isAuth: state.auth.isAuth
     
 });
 function TakeParams(props){

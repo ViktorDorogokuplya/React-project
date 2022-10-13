@@ -1,4 +1,4 @@
-// import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -10,13 +10,23 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginPage from './components/Login/Login'
+import {initializeApp} from "../src/redux/app-reducer";
+import { connect } from 'react-redux';
+import {useParams} from 'react-router-dom';
+import { compose } from 'redux';
+import Preloader from './components/common/preloader/Preloader';
 
+class App extends React.Component {
 
+    componentDidMount() {
+        this.props.initializeApp();
+    }
 
+    render() {
 
-
-const App = () => {
-
+       if (!this.props.initialized) {
+        return <Preloader />
+       }
     return (
       <BrowserRouter>
           <div className='app-wrapper'>
@@ -39,5 +49,14 @@ const App = () => {
       </BrowserRouter>
       );
 }
+}
 
-export default App;
+function TakeParams(props){   
+    return <App {...props} param={useParams()} />
+}
+
+const mapStateToProps = (state) => ({
+    initialized: state.app.initialized
+})
+
+export default compose(connect(mapStateToProps, {initializeApp}))(TakeParams);
