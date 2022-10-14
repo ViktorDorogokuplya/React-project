@@ -84,7 +84,7 @@ export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_C
 export const togleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 export const togleFollowingInProgress = (isFetching, userId) => ({type: FOLLOWING_IN_PROGRESS, isFetching, userId});
 
-export const getUsers = (currentPage, pageSize) => {
+export const requestUsers = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(togleIsFetching(true));
         dispatch(setCurrentPage(currentPage));
