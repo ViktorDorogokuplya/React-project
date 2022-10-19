@@ -4,6 +4,7 @@ import s from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatusHook';
 
 const ProfileInfo = (props) => {
+    // console.log(props);
 // debugger
     if (!props.profile) {
         return <Preloader />
@@ -16,7 +17,7 @@ const ProfileInfo = (props) => {
                      alt="background"></img>
             </div> */}
             <div className={s.desBlock}>
-                <img src={props.profile.photos.large} alt='#' />
+                <img src={''} alt='#' />
                 <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
                 <p>{props.profile.aboutMe}</p>
             </div>

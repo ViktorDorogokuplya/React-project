@@ -23,16 +23,10 @@ class ProfileContainer extends React.Component {
 
         this.props.getUserProfile(userId);
         this.props.getUserStatus(userId);
-
-
-        // usersAPI.getProfile(userId).then(data => {   
-        // this.props.setUserProfile(data)});
 }
 
     render() {
 
-        // if (!this.props.isAuth) return <Navigate to={'/login'} />;
-      
         return (
             <div>
                 <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateUserStatus}/>
@@ -52,7 +46,4 @@ function TakeParams(props){
     return <ProfileContainer {...props} param={useParams()} />
 }
 
-
 export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}), withAuthRedirect)(TakeParams);
-
-// connect(mapStateToProps, {getUserProfile})(TakeParams);
