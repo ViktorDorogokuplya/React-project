@@ -1,79 +1,14 @@
 import React from "react";
-import style from "./Users.module.css";
-import userPhoto from '../../assets/images/user.png';
-import {NavLink} from 'react-router-dom';
-// import {usersAPI} from "../../api/api"
-
+import Paginator from "../common/Paginator/Paginator";
+import User from "./User";
 
 const Users = (props) => {
-    
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-
-    let pages = [];
-    for (let i=1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-
-    pages = pages.slice(0, 10);
-
+console.log(props);
     return <div>
-            <div>
-                {pages.map(page => {
-                return <span className={props.currentPage === page ? style.selectedPage : ""} onClick={(e) =>{props.onPageChanged(page)}}>{page + ' '}</span>})}
-            </div>
-        {
-        props.users.map((user, index) => <div key={index} >
-        <span>
-            <div>
-                <NavLink to={'./../profile/' + user.id}>
-                <img src={user.photos.small != null ? user.photos.small : userPhoto} className={style.usersPhoto} alt='#'/>
-                </NavLink>
-            </div>
-            <div>
-                {user.followed 
-                ? <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                    // props.togleFollowingInProgress(true, user.id)
-                    props.follow(user.id);
-                    
-                    // usersAPI.userFollow(user.id).then(data => {  
-                    //     if(data.resultCode === 0) {
-                    //         props.unfollow(user.id);
-                    //     }
-                    //     props.togleFollowingInProgress(false, user.id)
-                    // });
-                    
-                }}>Unofllow</button> 
-                    
-                : <button disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-                    // props.togleFollowingInProgress(true, user.id)
-                    
-                    // usersAPI.userUnFollow(user.id).then(data => {  
-                    //     if(data.resultCode === 0) {
-                    //         props.follow(user.id);
-                    //     }
-                    //     props.togleFollowingInProgress(false, user.id)
-                    // });
-                    props.unfollow(user.id);
-
-                    }}>Follow</button>}
-            </div>
-        </span>
-        <span>
-            <span>
-                <div>{user.name}</div>
-                <div>{user.status}</div>
-                <div>{user.id}</div>
-            </span>
-            <span>
-                <div>{"user.location.country"}</div>
-                <div>{"user.location.city"}</div>
-            </span>
-        </span>
-        </div>)
+          <Paginator currentPage={props.currentPage} totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} onPageChanged={props.onPageChanged}/>
+        {props.users.map((user, index) => <User key={index} user = {user} followingInProgress={props.followingInProgress} follow={props.follow} unfollow={props.unfollow}  />)
 }
-</div>
-    
-    
+</div>  
 }
 
 export default Users;
