@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -15,6 +15,10 @@ import { connect } from 'react-redux';
 import {useParams} from 'react-router-dom';
 import { compose } from 'redux';
 import Preloader from './components/common/preloader/Preloader';
+
+// const SettingsContainer = React.lazy(() => import("./components/Settings/Settings"));
+// const NewsContainer = React.lazy(() => import("./components/News/News'"));
+// const MusicContainer = React.lazy(() => import('./components/Music/Music'));
 
 class App extends React.Component {
 
@@ -33,6 +37,7 @@ class App extends React.Component {
               <HeaderContainer/>
               <Navbar/>
               <div className='app-wrapper-content'>
+              <Suspense fallback={<div><Preloader /></div>}>
                   <Routes>
                       <Route path="/dialogs" element={<DialogsContainer />}/>
                       <Route path="/profile" element={<ProfileContainer />}>
@@ -44,6 +49,7 @@ class App extends React.Component {
                       <Route path="/users" element={<UsersContainer/>}/>
                       <Route path="/login" element={<LoginPage/>}/>
                   </Routes>
+                  </Suspense>
               </div>
           </div>
       </BrowserRouter>

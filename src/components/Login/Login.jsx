@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {Field, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { required } from "../../utils/validators/validators";
 import {Input, createFeield} from "../FormsControls/FormsControls";
 import { login } from "../../redux/auth-reducer";
@@ -14,6 +14,7 @@ const LoginForm = ({handleSubmit, error}) => {
               { createFeield("Email", "email", Input, [required])}
               {createFeield("password", "password", Input, [required], {type: "password"})}
               {createFeield(null, "rememberMe", Input, [], {type: "checkbox"}, "remember me")}
+              
                 {/* <div>
                     <Field name="email" placeholder={"email"} component={Input} validate={[required]}/>
                 </div>

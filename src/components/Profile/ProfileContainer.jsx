@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile-reducer";
+import { getUserProfile, getUserStatus, updateUserStatus, savePhoto, saveProfile } from "../../redux/profile-reducer";
 import {useParams} from 'react-router-dom';
 // import {Navigate} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect"
@@ -10,26 +10,41 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect"
 
 
 
-
 class ProfileContainer extends React.Component {
+
+    refreshProfile = () => {
+        let userId = this.props.param.userId;
+    
+            if(!userId) {
+                userId = this.props.authorizedUserId;
+            }
+    
+            this.props.getUserProfile(userId);
+            this.props.getUserStatus(userId);
+    }
 
     componentDidMount() {
        
-        let userId = this.props.param.userId;
-
-        if(!userId) {
-            userId = this.props.authorizedUserId;
-        }
-
-        this.props.getUserProfile(userId);
-        this.props.getUserStatus(userId);
+        this.refreshProfile()
 }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.param.userId !== prevProps.param.userId) {
+            this.refreshProfile();
+        }
+    }
 
     render() {
 
         return (
             <div>
-                <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateUserStatus}/>
+                <Profile {...this.props} isOwner={!this.props.param.userId} 
+                profile={this.props.profile} 
+                status={this.props.status} 
+                updateStatus={this.props.updateUserStatus} 
+                savePhoto={this.props.savePhoto} 
+                // saveProfile={this.props.saveProfile} 
+                />
              </div>
         )
     }
@@ -46,4 +61,4 @@ function TakeParams(props){
     return <ProfileContainer {...props} param={useParams()} />
 }
 
-export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus}), withAuthRedirect)(TakeParams);
+export default compose(connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto, saveProfile}), withAuthRedirect)(TakeParams);
