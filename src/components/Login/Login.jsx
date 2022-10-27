@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import style from "../FormsControls/FormsControls.module.css"
 
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
 
     return <form onSubmit={handleSubmit}>
               { createFeield("Email", "email", Input, [required])}
@@ -26,6 +26,8 @@ const LoginForm = ({handleSubmit, error}) => {
                 </div> */}
 
                 {error && <div className={style.formSummaryError}>{error}</div>}
+                {captchaUrl && <img src={captchaUrl} alt='#' />}
+                {captchaUrl && createFeield("Symbols from image", "captcha", Input, [required])}
                 <div>
                     <button>Login</button>
                 </div>
@@ -37,7 +39,7 @@ const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 const LoginPage = (props) => {
 
     const onSubmit = (formData) => {
-        props.login(formData.email, formData.password, formData.rememberMe);
+        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
     }
 
     if (props.isAuth) {
@@ -46,11 +48,12 @@ const LoginPage = (props) => {
 
     return <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>          
+            <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>          
            </div>
 }
 
 let mapStateToProps = (state) => ({
+    captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth,
 });
 

@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import Preloader from '../../common/preloader/Preloader';
 import s from './ProfileInfo.module.css';
-import ProfileStatus from './ProfileStatus';
+import ProfileStatus from './ProfileStatusHook';
 import userPhoto from '../../../assets/images/user.png';
 import ProfileDataFormReduxForm from './ProfileDataForm';
 
 const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, saveProfile}) => {
-    // console.log(profile);
 
     let [editMode, setEditMode] = useState(false)
 
@@ -41,9 +40,9 @@ const ProfileInfo = ({profile, status, updateStatus, isOwner, savePhoto, savePro
 
                 { editMode ? <ProfileDataFormReduxForm profile={profile} onSubmit={onSubmit} /> 
                 : <ProfileData profile={profile} isOwner={isOwner} toEditMode={() => { setEditMode(true) }}/>}
-                <ProfileStatus status={status} updateStatus={updateStatus} />
                 {/* <p>{profile.aboutMe}</p> */}
             </div>
+            <div className=""><ProfileStatus status={status} updateStatus={updateStatus} /></div>
         </div>
     )
 }
