@@ -6,11 +6,11 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from "./components/Settings/Settings";
 import UsersContainer from './components/Users/UsersContainer';
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginPage from './components/Login/Login'
-import {initializeApp} from "../src/redux/app-reducer";
+import {initializeApp} from "../src/redux/app-reducer.ts";
 import { connect } from 'react-redux';
 import {useParams} from 'react-router-dom';
 import { compose } from 'redux';
@@ -49,7 +49,7 @@ class App extends React.Component {
                       <Route path="/settings" element={<Settings/>}/>
                       <Route path="/users" element={<UsersContainer/>}/>
                       <Route path="/login" element={<LoginPage/>}/>
-                      <Route path="*" element={<div>404 NOT FOUND</div>}/>
+                      {/* <Route path="*" element={<div>404 NOT FOUND</div>}/> */}
                   </Routes>
                   </Suspense>
               </div>
